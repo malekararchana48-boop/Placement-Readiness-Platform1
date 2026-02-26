@@ -1,22 +1,67 @@
 // localStorage history management for analysis results
+import { 
+  createAnalysisEntry, 
+  validateAndNormalizeEntry, 
+  isValidEntry,
+  updateSkillConfidence as schemaUpdateSkillConfidence 
+} from './analysisSchema'
 
 const STORAGE_KEY = 'placement_readiness_history'
+const CORRUPTED_KEY = 'placement_readiness_corrupted_count'
 
 // Generate unique ID
 function generateId() {
   return Date.now().toString(36) + Math.random().toString(36).substr(2)
 }
 
-// Get all history entries
+// Get all history entries with validation
 export function getHistory() {
   try {
     const stored = localStorage.getItem(STORAGE_KEY)
     if (!stored) return []
-    return JSON.parse(stored)
+    
+    const parsed = JSON.parse(stored)
+    if (!Array.isArray(parsed)) return []
+    
+    // Filter and validate entries
+    const validEntries = []
+    let corruptedCount = 0
+    
+    parsed.forEach(entry => {
+      if (isValidEntry(entry)) {
+        // Normalize to ensure schema consistency
+        const normalized = validateAndNormalizeEntry(entry)
+        if (normalized) {
+          validEntries.push(normalized)
+        } else {
+          corruptedCount++
+        }
+      } else {
+        corruptedCount++
+      }
+    })
+    
+    // Track corrupted entries for UI notification
+    if (corruptedCount > 0) {
+      localStorage.setItem(CORRUPTED_KEY, corruptedCount.toString())
+    }
+    
+    return validEntries
   } catch (error) {
     console.error('Error reading history:', error)
     return []
   }
+}
+
+// Check if there were corrupted entries
+export function hasCorruptedEntries() {
+  const count = localStorage.getItem(CORRUPTED_KEY)
+  return count ? parseInt(count, 10) > 0 : false
+}
+
+// Clear corrupted entry flag
+export function clearCorruptedFlag() {
+  localStorage.removeItem(CORRUPTED_KEY)
 }
 
 // Save a new analysis entry
@@ -24,11 +69,12 @@ export function saveAnalysis(analysisData) {
   try {
     const history = getHistory()
     
-    const newEntry = {
+    // Use schema to create standardized entry
+    const newEntry = createAnalysisEntry({
+      ...analysisData,
       id: generateId(),
-      createdAt: new Date().toISOString(),
-      ...analysisData
-    }
+      createdAt: new Date().toISOString()
+    })
     
     // Add to beginning of array (most recent first)
     history.unshift(newEntry)
@@ -80,7 +126,7 @@ export function deleteAnalysis(id) {
   }
 }
 
-// Update an existing entry
+// Update an existing entry with score stability
 export function updateAnalysis(id, updates) {
   try {
     const history = getHistory()
@@ -90,19 +136,73 @@ export function updateAnalysis(id, updates) {
       throw new Error('Analysis not found')
     }
     
-    // Merge updates with existing entry
-    history[index] = {
-      ...history[index],
-      ...updates,
-      id: history[index].id, // Preserve ID
-      createdAt: history[index].createdAt // Preserve creation date
+    const existingEntry = history[index]
+    
+    // Handle skill confidence updates with score recalculation
+    let updatedEntry = { ...existingEntry }
+    
+    if (updates.skillConfidenceMap) {
+      // Calculate which skills changed
+      const oldConfidence = existingEntry.skillConfidenceMap || {}
+      const newConfidence = updates.skillConfidenceMap
+      
+      // Find changed skills
+      Object.entries(newConfidence).forEach(([skill, confidence]) => {
+        if (oldConfidence[skill] !== confidence) {
+          updatedEntry = schemaUpdateSkillConfidence(updatedEntry, skill, confidence)
+        }
+      })
+      
+      // Keep other updates
+      delete updates.skillConfidenceMap
     }
     
+    // Merge remaining updates
+    updatedEntry = {
+      ...updatedEntry,
+      ...updates,
+      id: existingEntry.id, // Preserve ID
+      createdAt: existingEntry.createdAt, // Preserve creation date
+      updatedAt: new Date().toISOString() // Update timestamp
+    }
+    
+    // Validate before saving
+    const normalized = validateAndNormalizeEntry(updatedEntry)
+    if (!normalized) {
+      throw new Error('Updated entry failed validation')
+    }
+    
+    history[index] = normalized
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history))
-    return history[index]
+    return normalized
   } catch (error) {
     console.error('Error updating analysis:', error)
     throw new Error('Failed to update analysis')
+  }
+}
+
+// Update skill confidence specifically (for toggle interactions)
+export function updateSkillConfidence(id, skill, confidence) {
+  try {
+    const history = getHistory()
+    const index = history.findIndex(entry => entry.id === id)
+    
+    if (index === -1) {
+      throw new Error('Analysis not found')
+    }
+    
+    const updatedEntry = schemaUpdateSkillConfidence(history[index], skill, confidence)
+    
+    if (!updatedEntry) {
+      throw new Error('Failed to update skill confidence')
+    }
+    
+    history[index] = updatedEntry
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(history))
+    return updatedEntry
+  } catch (error) {
+    console.error('Error updating skill confidence:', error)
+    throw new Error('Failed to update skill confidence')
   }
 }
 

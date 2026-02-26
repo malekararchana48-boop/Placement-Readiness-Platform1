@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../components/ui/Card'
-import { FileText, Building2, Briefcase, Sparkles, Loader2 } from 'lucide-react'
+import { FileText, Building2, Briefcase, Sparkles, Loader2, AlertTriangle } from 'lucide-react'
 import { extractSkills, calculateReadinessScore, generateChecklist, generatePlan, generateQuestions } from '../utils/skillExtractor'
 import { generateCompanyIntel } from '../utils/companyIntel'
 import { saveAnalysis } from '../utils/historyStorage'
+import { getJDValidationWarning, isJDTooShort } from '../utils/analysisSchema'
 
 function Analysis() {
   const navigate = useNavigate()
@@ -25,8 +26,10 @@ function Analysis() {
   const handleAnalyze = async (e) => {
     e.preventDefault()
     
-    if (!formData.jdText.trim()) {
-      setError('Please enter a job description')
+    // Validate JD input
+    const validationError = getJDValidationWarning(formData.jdText)
+    if (validationError && !formData.jdText.trim()) {
+      setError(validationError)
       return
     }
 
@@ -39,8 +42,8 @@ function Analysis() {
       // Extract skills
       const skillData = extractSkills(formData.jdText)
       
-      // Calculate readiness score
-      const readinessScore = calculateReadinessScore(
+      // Calculate base readiness score (computed only once on analyze)
+      const baseScore = calculateReadinessScore(
         formData.jdText,
         formData.company,
         formData.role,
@@ -59,19 +62,23 @@ function Analysis() {
         skillData.categories
       )
       
-      // Prepare analysis result
+      // Prepare analysis result with standardized schema
       const analysisResult = {
-        company: formData.company || 'Unknown Company',
-        role: formData.role || 'Unknown Role',
+        company: formData.company || '',
+        role: formData.role || '',
         jdText: formData.jdText,
         extractedSkills: skillData.skills,
         categories: skillData.categories,
         categoryCount: skillData.categoryCount,
-        readinessScore,
+        // Score stability: baseScore computed once, finalScore starts same
+        baseScore,
+        finalScore: baseScore,
+        skillConfidenceMap: {},
         checklist,
         plan,
         questions,
-        companyIntel
+        companyIntel,
+        roundMapping: companyIntel.roundMapping || []
       }
       
       // Save to history
@@ -200,6 +207,21 @@ Requirements:
                 </span>
               </div>
             </div>
+
+            {/* JD Too Short Warning */}
+            {isJDTooShort(formData.jdText) && formData.jdText.length > 0 && (
+              <div className="flex items-start gap-2 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-sm text-amber-700">
+                    This JD is too short to analyze deeply. Paste full JD for better output.
+                  </p>
+                  <p className="text-xs text-amber-600 mt-1">
+                    Current: {formData.jdText.length} characters (recommended: 200+)
+                  </p>
+                </div>
+              </div>
+            )}
 
             {/* Error Message */}
             {error && (

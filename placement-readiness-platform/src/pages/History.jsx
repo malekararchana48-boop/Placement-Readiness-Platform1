@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card'
-import { getHistory, deleteAnalysis, formatDate, getRelativeTime } from '../utils/historyStorage'
+import { getHistory, deleteAnalysis, formatDate, getRelativeTime, hasCorruptedEntries, clearCorruptedFlag } from '../utils/historyStorage'
 import { 
   Building2, 
   Briefcase, 
@@ -10,16 +10,23 @@ import {
   ExternalLink,
   History,
   AlertCircle,
-  Sparkles
+  Sparkles,
+  AlertTriangle
 } from 'lucide-react'
 
 function HistoryPage() {
   const navigate = useNavigate()
   const [history, setHistory] = useState([])
   const [loading, setLoading] = useState(true)
+  const [showCorruptedWarning, setShowCorruptedWarning] = useState(false)
 
   useEffect(() => {
     loadHistory()
+    // Check for corrupted entries
+    if (hasCorruptedEntries()) {
+      setShowCorruptedWarning(true)
+      clearCorruptedFlag()
+    }
   }, [])
 
   const loadHistory = () => {
@@ -84,6 +91,19 @@ function HistoryPage() {
 
   return (
     <div className="max-w-4xl mx-auto">
+      {/* Corrupted Entry Warning */}
+      {showCorruptedWarning && (
+        <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+          <div>
+            <h4 className="font-medium text-amber-900">Data Notice</h4>
+            <p className="text-sm text-amber-700 mt-1">
+              One saved entry couldn't be loaded. Create a new analysis to continue.
+            </p>
+          </div>
+        </div>
+      )}
+
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-gray-900">Analysis History</h2>
         <p className="text-gray-600 mt-1">
@@ -145,8 +165,8 @@ function HistoryPage() {
 
                 {/* Score Badge */}
                 <div className="flex items-center gap-4">
-                  <div className={`px-4 py-2 rounded-lg ${getScoreColor(entry.readinessScore)}`}>
-                    <span className="text-2xl font-bold">{entry.readinessScore}</span>
+                  <div className={`px-4 py-2 rounded-lg ${getScoreColor(entry.finalScore ?? entry.readinessScore ?? 50)}`}>
+                    <span className="text-2xl font-bold">{entry.finalScore ?? entry.readinessScore ?? 50}</span>
                     <span className="text-xs ml-1">/100</span>
                   </div>
                   

@@ -1,4 +1,5 @@
 // Skill extraction utility - Heuristic-based keyword detection
+import { FALLBACK_SKILLS, DEFAULT_SKILLS } from './analysisSchema'
 
 const SKILL_CATEGORIES = {
   coreCS: {
@@ -70,19 +71,23 @@ export function extractSkills(jdText) {
     }
   })
 
-  // If no skills detected, show general fresher stack
-  if (Object.keys(extractedSkills).length === 0) {
-    extractedSkills.general = {
-      label: 'General Fresher Stack',
-      skills: ['DSA', 'OOP', 'DBMS', 'SQL', 'Java/Python/C++', 'Problem Solving']
+  // If no skills detected, use fallback skills
+  const hasAnySkills = Object.keys(extractedSkills).length > 0
+  
+  if (!hasAnySkills) {
+    // Use fallback skills in the "other" category
+    extractedSkills.other = {
+      label: 'General Skills',
+      skills: FALLBACK_SKILLS.other
     }
-    detectedCategories.add('general')
+    detectedCategories.add('other')
   }
 
   return {
     skills: extractedSkills,
     categories: Array.from(detectedCategories),
-    categoryCount: detectedCategories.size
+    categoryCount: detectedCategories.size,
+    hasDetectedSkills: hasAnySkills
   }
 }
 

@@ -1,0 +1,166 @@
+/**
+ * KodNest Premium Build System - Card Components
+ * Subtle border, no drop shadows, balanced padding
+ */
+
+@import '../tokens.css';
+
+/* ============================================
+   BASE CARD
+   ============================================ */
+
+.card {
+  background-color: var(--color-background-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+  transition: border-color var(--transition-fast);
+}
+
+.card:hover {
+  border-color: var(--color-border-strong);
+}
+
+/* ============================================
+   CARD VARIANTS
+   ============================================ */
+
+.card-subtle {
+  background-color: var(--color-background-subtle);
+  border-color: var(--color-border);
+}
+
+.card-elevated {
+  background-color: var(--color-background-elevated);
+  border-color: var(--color-border-strong);
+}
+
+/* ============================================
+   CARD SECTIONS
+   ============================================ */
+
+.card-header {
+  margin-bottom: var(--space-2);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.card-header:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.card-title {
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  font-weight: var(--font-normal);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.card-subtitle {
+  font-size: var(--text-sm);
+  color: var(--color-text-tertiary);
+  margin-top: var(--space-1);
+  margin-bottom: 0;
+}
+
+.card-body {
+  color: var(--color-text-secondary);
+}
+
+.card-body p {
+  margin-bottom: var(--space-2);
+}
+
+.card-body p:last-child {
+  margin-bottom: 0;
+}
+
+.card-footer {
+  margin-top: var(--space-2);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  gap: var(--space-1);
+  justify-content: flex-end;
+}
+
+/* ============================================
+   CARD SIZES
+   ============================================ */
+
+.card-sm {
+  padding: var(--space-2);
+}
+
+.card-sm .card-title {
+  font-size: var(--text-lg);
+}
+
+.card-lg {
+  padding: var(--space-4);
+}
+
+.card-lg .card-title {
+  font-size: var(--text-2xl);
+}
+
+/* ============================================
+   INTERACTIVE CARD
+   ============================================ */
+
+.card-interactive {
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.card-interactive:hover {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent-subtle);
+}
+
+.card-interactive:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* ============================================
+   CARD GRID
+   ============================================ */
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-3);
+}
+
+/* ============================================
+   INFO CARD
+   For step explanations in secondary panel
+   ============================================ */
+
+.info-card {
+  background-color: var(--color-background-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2);
+}
+
+.info-card-title {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-1) 0;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+
+.info-card-content {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+  margin: 0;
+}

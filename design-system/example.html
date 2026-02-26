@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KodNest Premium Build System - Design System</title>
+  <link rel="stylesheet" href="components/index.css">
+  <style>
+    /* Demo page specific styles */
+    .demo-section {
+      margin-bottom: var(--space-4);
+    }
+
+    .demo-section-title {
+      font-family: var(--font-serif);
+      font-size: var(--text-xl);
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-2);
+      padding-bottom: var(--space-1);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: var(--space-2);
+      margin-bottom: var(--space-2);
+    }
+
+    .demo-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      margin-bottom: var(--space-2);
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- TOP BAR -->
+    <header class="top-bar">
+      <div class="top-bar-left">
+        <span class="font-serif" style="font-size: var(--text-lg); font-weight: 500;">KodNest Premium</span>
+      </div>
+      <div class="top-bar-center">
+        <div class="progress-indicator">
+          <span class="progress-indicator-current">Step 3</span>
+          <span class="progress-indicator-separator">/</span>
+          <span class="progress-indicator-total">8</span>
+        </div>
+      </div>
+      <div class="top-bar-right">
+        <span class="badge badge-in-progress">In Progress</span>
+      </div>
+    </header>
+
+    <!-- CONTEXT HEADER -->
+    <section class="context-header">
+      <h1>Design System Overview</h1>
+      <p class="context-subtext">A calm, intentional, coherent design system for serious B2C products. No gradients, no glassmorphism, no animation noise.</p>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+      <!-- PRIMARY WORKSPACE -->
+      <main class="primary-workspace">
+        <!-- Buttons Section -->
+        <div class="demo-section">
+          <h2 class="demo-section-title">Buttons</h2>
+          <div class="demo-row">
+            <button class="btn btn-primary">Primary Button</button>
+            <button class="btn btn-secondary">Secondary Button</button>
+            <button class="btn btn-ghost">Ghost Button</button>
+          </div>
+          <div class="demo-row">
+            <button class="btn btn-primary btn-sm">Small</button>
+            <button class="btn btn-secondary btn-sm">Small</button>
+            <button class="btn btn-primary btn-lg">Large Button</button>
+          </div>
+          <div class="demo-row">
+            <button class="btn btn-primary" disabled>Disabled</button>
+            <button class="btn btn-secondary" disabled>Disabled</button>
+          </div>
+        </div>
+
+        <!-- Inputs Section -->
+        <div class="demo-section">
+          <h2 class="demo-section-title">Inputs</h2>
+          <div class="form-field">
+            <label class="label">Text Input</label>
+            <input type="text" class="input" placeholder="Enter your text here">
+          </div>
+          <div class="form-field">
+            <label class="label label-required">Required Field</label>
+            <input type="text" class="input" placeholder="This field is required">
+          </div>
+          <div class="form-field">
+            <label class="label">Textarea</label>
+            <textarea class="textarea" placeholder="Enter longer text here..."></textarea>
+          </div>
+          <div class="form-field">
+            <label class="label">Select</label>
+            <select class="select">
+              <option value="">Choose an option</option>
+              <option value="1">Option 1</option>
+              <option value="2">Option 2</option>
+              <option value="3">Option 3</option>
+            </select>
+          </div>
+          <div class="demo-row">
+            <label class="checkbox-label">
+              <input type="checkbox" class="checkbox" checked>
+              Checkbox option
+            </label>
+            <label class="radio-label">
+              <input type="radio" class="radio" name="demo-radio" checked>
+              Radio option 1
+            </label>
+            <label class="radio-label">
+              <input type="radio" class="radio" name="demo-radio">
+              Radio option 2
+            </label>
+          </div>
+        </div>
+
+        <!-- Cards Section -->
+        <div class="demo-section">
+          <h2 class="demo-section-title">Cards</h2>
+          <div class="card-grid">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Standard Card</h3>
+                <p class="card-subtitle">With header and footer</p>
+              </div>
+              <div class="card-body">
+                <p>This is the card body content. It can contain any information you need to display.</p>
+              </div>
+              <div class="card-footer">
+                <button class="btn btn-secondary btn-sm">Cancel</button>
+                <button class="btn btn-primary btn-sm">Confirm</button>
+              </div>
+            </div>
+
+            <div class="card card-interactive">
+              <div class="card-body">
+                <h3 class="card-title" style="font-size: var(--text-lg);">Interactive Card</h3>
+                <p style="font-size: var(--text-sm);">This card is clickable and has hover states.</p>
+              </div>
+            </div>
+
+            <div class="card card-subtle">
+              <div class="card-body">
+                <h3 class="card-title" style="font-size: var(--text-lg);">Subtle Card</h3>
+                <p style="font-size: var(--text-sm);">Uses the subtle background color for less emphasis.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- States Section -->
+        <div class="demo-section">
+          <h2 class="demo-section-title">States</h2>
+
+          <!-- Empty State -->
+          <div class="card" style="margin-bottom: var(--space-3);">
+            <div class="card-body">
+              <div class="empty-state" style="padding: var(--space-3);">
+                <svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="3" y="3" width="18" height="18" rx="2" />
+                  <path d="M9 3v18" />
+                  <path d="M12 8h5" />
+                  <path d="M12 12h5" />
+                  <path d="M12 16h5" />
+                </svg>
+                <h3 class="empty-state-title">No items yet</h3>
+                <p class="empty-state-message">Get started by creating your first item. This space will fill up as you add content.</p>
+                <button class="btn btn-primary empty-state-action">Create First Item</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Error State -->
+          <div class="card">
+            <div class="card-body">
+              <div class="error-state" style="padding: var(--space-3);">
+                <svg class="error-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="m15 9-6 6" />
+                  <path d="m9 9 6 6" />
+                </svg>
+                <h3 class="error-state-title">Unable to connect</h3>
+                <p class="error-state-message">We couldn't establish a connection to the server. This is usually temporary.</p>
+                <div class="error-state-solution">
+                  <p class="error-state-solution-title">Try these steps:</p>
+                  <ol class="error-state-solution-steps">
+                    <li>Check your internet connection</li>
+                    <li>Wait a moment and try again</li>
+                    <li>Refresh the page</li>
+                  </ol>
+                </div>
+                <div class="error-state-actions">
+                  <button class="btn btn-secondary">Go Back</button>
+                  <button class="btn btn-primary">Try Again</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- SECONDARY PANEL -->
+      <aside class="secondary-panel">
+        <!-- Step Explanation -->
+        <div class="info-card" style="margin-bottom: var(--space-3);">
+          <h4 class="info-card-title">Current Step</h4>
+          <p class="info-card-content">Review the design system components and verify they meet your product requirements. Each component follows the established patterns.</p>
+        </div>
+
+        <!-- Copyable Prompt Box -->
+        <div class="prompt-box" style="margin-bottom: var(--space-3);">
+          <div class="prompt-box-content">Review the KodNest Premium Build System design system. Verify that:
+
+1. Color system uses only 4 colors
+2. Typography follows serif headings + sans-serif body
+3. Spacing uses the 8px scale (8, 16, 24, 40, 64)
+4. All components have consistent border radius
+5. No gradients, glassmorphism, or animation noise</div>
+          <div class="prompt-box-actions">
+            <button class="btn btn-secondary btn-sm">Copy</button>
+            <button class="btn btn-primary btn-sm">Build in Lovable</button>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="btn-group" style="flex-direction: column; width: 100%; gap: var(--space-1);">
+          <button class="btn btn-primary" style="width: 100%;">It Worked</button>
+          <button class="btn btn-secondary" style="width: 100%;">Report Error</button>
+          <button class="btn btn-ghost" style="width: 100%;">Add Screenshot</button>
+        </div>
+
+        <!-- Status Badges Demo -->
+        <div style="margin-top: var(--space-4);">
+          <h4 style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2); color: var(--color-text-primary);">Status Badges</h4>
+          <div style="display: flex; flex-direction: column; gap: var(--space-1);">
+            <span class="badge badge-not-started">Not Started</span>
+            <span class="badge badge-in-progress">In Progress</span>
+            <span class="badge badge-shipped">Shipped</span>
+            <span class="badge badge-error">Error</span>
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div style="margin-top: var(--space-4);">
+          <h4 style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2); color: var(--color-text-primary);">Progress</h4>
+          <div class="progress-bar" style="margin-bottom: var(--space-2);">
+            <div class="progress-bar-fill" style="width: 37.5%;"></div>
+          </div>
+          <div class="step-indicator">
+            <div class="step-dot step-dot-completed"></div>
+            <div class="step-line step-line-completed"></div>
+            <div class="step-dot step-dot-completed"></div>
+            <div class="step-line step-line-completed"></div>
+            <div class="step-dot step-dot-active"></div>
+            <div class="step-line"></div>
+            <div class="step-dot"></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- PROOF FOOTER -->
+    <footer class="proof-footer">
+      <div class="proof-footer-content">
+        <span class="proof-footer-title">Completion Checklist</span>
+        <div class="proof-checklist">
+          <label class="proof-item proof-item-checked">
+            <span class="proof-checkbox proof-checkbox-checked"></span>
+            <span class="proof-label">UI Built</span>
+          </label>
+          <label class="proof-item">
+            <span class="proof-checkbox"></span>
+            <span class="proof-label">Logic Working</span>
+          </label>
+          <label class="proof-item">
+            <span class="proof-checkbox"></span>
+            <span class="proof-label">Test Passed</span>
+          </label>
+          <label class="proof-item">
+            <span class="proof-checkbox"></span>
+            <span class="proof-label">Deployed</span>
+          </label>
+        </div>
+        <div class="proof-input-container">
+          <span class="proof-input-label">Proof:</span>
+          <input type="text" class="proof-input" placeholder="Enter verification note...">
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

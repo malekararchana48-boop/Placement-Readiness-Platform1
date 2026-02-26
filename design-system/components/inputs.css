@@ -1,0 +1,233 @@
+/**
+ * KodNest Premium Build System - Input Components
+ * Clean borders, no heavy shadows, clear focus state
+ */
+
+@import '../tokens.css';
+
+/* ============================================
+   TEXT INPUT
+   ============================================ */
+
+.input {
+  width: 100%;
+  padding: 12px 16px;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  background-color: var(--color-background-elevated);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.input::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.input:hover:not(:disabled):not([aria-disabled="true"]) {
+  border-color: var(--color-text-tertiary);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-subtle);
+}
+
+.input:disabled,
+.input[aria-disabled="true"] {
+  background-color: var(--color-background-subtle);
+  color: var(--color-text-tertiary);
+  cursor: not-allowed;
+}
+
+/* ============================================
+   INPUT SIZES
+   ============================================ */
+
+.input-sm {
+  padding: 8px 12px;
+  font-size: var(--text-sm);
+}
+
+.input-lg {
+  padding: 16px 20px;
+  font-size: var(--text-lg);
+}
+
+/* ============================================
+   TEXTAREA
+   ============================================ */
+
+.textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 12px 16px;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--color-text-primary);
+  background-color: var(--color-background-elevated);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  resize: vertical;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.textarea::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-subtle);
+}
+
+/* ============================================
+   SELECT
+   ============================================ */
+
+.select {
+  width: 100%;
+  padding: 12px 40px 12px 16px;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  background-color: var(--color-background-elevated);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23555555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  appearance: none;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-subtle);
+}
+
+/* ============================================
+   CHECKBOX & RADIO
+   ============================================ */
+
+.checkbox,
+.radio {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--color-accent);
+  cursor: pointer;
+}
+
+.checkbox-label,
+.radio-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-base);
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+/* ============================================
+   INPUT GROUP
+   ============================================ */
+
+.input-group {
+  display: flex;
+  align-items: stretch;
+}
+
+.input-group .input {
+  border-radius: 0;
+  flex: 1;
+}
+
+.input-group .input:first-child {
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+}
+
+.input-group .input:last-child {
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.input-group .btn {
+  border-radius: 0;
+}
+
+.input-group .btn:first-child {
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+}
+
+.input-group .btn:last-child {
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+/* ============================================
+   FORM LABEL
+   ============================================ */
+
+.label {
+  display: block;
+  margin-bottom: var(--space-1);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+}
+
+.label-required::after {
+  content: ' *';
+  color: var(--color-accent);
+}
+
+/* ============================================
+   FORM FIELD
+   ============================================ */
+
+.form-field {
+  margin-bottom: var(--space-2);
+}
+
+.form-field:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================================
+   COPYABLE PROMPT BOX
+   For secondary panel
+   ============================================ */
+
+.prompt-box {
+  position: relative;
+  background-color: var(--color-background-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2);
+}
+
+.prompt-box-content {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.prompt-box-actions {
+  display: flex;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-border);
+}

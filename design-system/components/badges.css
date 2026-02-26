@@ -1,0 +1,183 @@
+/**
+ * KodNest Premium Build System - Badge Components
+ * Status badges: Not Started / In Progress / Shipped
+ */
+
+@import '../tokens.css';
+
+/* ============================================
+   BASE BADGE
+   ============================================ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  line-height: 1.4;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+/* Status dot */
+.badge::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ============================================
+   STATUS BADGES
+   ============================================ */
+
+/* Not Started - Neutral */
+.badge-not-started {
+  background-color: var(--color-background-subtle);
+  color: var(--color-text-secondary);
+}
+
+.badge-not-started::before {
+  background-color: var(--color-text-tertiary);
+}
+
+/* In Progress - Warning/Amber */
+.badge-in-progress {
+  background-color: var(--color-warning-subtle);
+  color: var(--color-warning);
+}
+
+.badge-in-progress::before {
+  background-color: var(--color-warning);
+}
+
+/* Shipped - Success */
+.badge-shipped {
+  background-color: var(--color-success-subtle);
+  color: var(--color-success);
+}
+
+.badge-shipped::before {
+  background-color: var(--color-success);
+}
+
+/* Error - Accent/Red */
+.badge-error {
+  background-color: var(--color-error-subtle);
+  color: var(--color-error);
+}
+
+.badge-error::before {
+  background-color: var(--color-error);
+}
+
+/* ============================================
+   BADGE SIZES
+   ============================================ */
+
+.badge-sm {
+  padding: 4px 8px;
+  font-size: var(--text-xs);
+}
+
+.badge-sm::before {
+  width: 6px;
+  height: 6px;
+}
+
+.badge-lg {
+  padding: 8px 16px;
+  font-size: var(--text-base);
+}
+
+.badge-lg::before {
+  width: 10px;
+  height: 10px;
+}
+
+/* ============================================
+   PROGRESS INDICATOR
+   Center of top bar: Step X / Y
+   ============================================ */
+
+.progress-indicator {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.progress-indicator-current {
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+}
+
+.progress-indicator-separator {
+  color: var(--color-text-tertiary);
+}
+
+.progress-indicator-total {
+  color: var(--color-text-tertiary);
+}
+
+/* ============================================
+   PROGRESS BAR
+   ============================================ */
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background-color: var(--color-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: var(--color-accent);
+  border-radius: var(--radius-sm);
+  transition: width var(--transition-base);
+}
+
+/* ============================================
+   STEP INDICATOR
+   Visual step progress
+   ============================================ */
+
+.step-indicator {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.step-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--color-border-strong);
+  transition: background-color var(--transition-fast);
+}
+
+.step-dot-active {
+  background-color: var(--color-accent);
+}
+
+.step-dot-completed {
+  background-color: var(--color-success);
+}
+
+.step-line {
+  width: 24px;
+  height: 2px;
+  background-color: var(--color-border);
+}
+
+.step-line-completed {
+  background-color: var(--color-success);
+}

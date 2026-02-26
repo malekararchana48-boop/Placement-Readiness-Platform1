@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../components/ui/Card'
 import { FileText, Building2, Briefcase, Sparkles, Loader2 } from 'lucide-react'
 import { extractSkills, calculateReadinessScore, generateChecklist, generatePlan, generateQuestions } from '../utils/skillExtractor'
+import { generateCompanyIntel } from '../utils/companyIntel'
 import { saveAnalysis } from '../utils/historyStorage'
 
 function Analysis() {
@@ -51,6 +52,13 @@ function Analysis() {
       const plan = generatePlan(skillData.skills, skillData.categories)
       const questions = generateQuestions(skillData.skills, skillData.categories)
       
+      // Generate company intel
+      const companyIntel = generateCompanyIntel(
+        formData.company,
+        formData.jdText,
+        skillData.categories
+      )
+      
       // Prepare analysis result
       const analysisResult = {
         company: formData.company || 'Unknown Company',
@@ -62,7 +70,8 @@ function Analysis() {
         readinessScore,
         checklist,
         plan,
-        questions
+        questions,
+        companyIntel
       }
       
       // Save to history

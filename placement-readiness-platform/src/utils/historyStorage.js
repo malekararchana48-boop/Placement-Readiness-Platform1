@@ -80,6 +80,32 @@ export function deleteAnalysis(id) {
   }
 }
 
+// Update an existing entry
+export function updateAnalysis(id, updates) {
+  try {
+    const history = getHistory()
+    const index = history.findIndex(entry => entry.id === id)
+    
+    if (index === -1) {
+      throw new Error('Analysis not found')
+    }
+    
+    // Merge updates with existing entry
+    history[index] = {
+      ...history[index],
+      ...updates,
+      id: history[index].id, // Preserve ID
+      createdAt: history[index].createdAt // Preserve creation date
+    }
+    
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(history))
+    return history[index]
+  } catch (error) {
+    console.error('Error updating analysis:', error)
+    throw new Error('Failed to update analysis')
+  }
+}
+
 // Clear all history
 export function clearHistory() {
   try {
